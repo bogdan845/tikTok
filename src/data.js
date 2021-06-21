@@ -1,78 +1,78 @@
-export const DATA = [ 
+export const posts = [ 
     {
         id: 1,
-        title: 'notBad',
-        uri: 'https://www.youtube.com/watch?v=5nl7sKwPQo4&ab_channel=NuclearBlastRecords'
+        userName: '@Df_tim',
+        uri: 'https://d8vywknz0hvjw.cloudfront.net/fitenium-media-prod/videos/45fee890-a74f-11ea-8725-311975ea9616/proccessed_720.mp4'
     },
     {
         id: 2,
-        title: 'tryToImprove',
-        uri: 'https://www.youtube.com/watch?v=5nl7sKwPQo4&ab_channel=NuclearBlastRecords'
+        userName: '@ort',
+        uri: 'https://d8vywknz0hvjw.cloudfront.net/fitenium-media-prod/videos/45fee890-a74f-11ea-8725-311975ea9616/proccessed_720.mp4'
     },
-    {
-        id: 3,
-        title: 'thug_lifer',
-        uri: 'https://www.youtube.com/watch?v=067YF8KHdTM&ab_channel=Pain'
-    },
-    {
-        id: 4,
-        title: 'optNano',
-        uri: 'https://www.youtube.com/watch?v=067YF8KHdTM&ab_channel=Pain'
-    }
+    // {
+    //     id: 3,
+    //     userName: '@thug_lifer',
+    //     uri: 'https://www.youtube.com/watch?v=067YF8KHdTM&ab_channel=Pain'
+    // },
+    // {
+    //     id: 4,
+    //     userName: '@optNano',
+    //     uri: 'https://www.youtube.com/watch?v=067YF8KHdTM&ab_channel=Pain'
+    // }
     // ,
     // {
     //     id: 5,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 6,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 7
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 8,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 9,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 10,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 11,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 12,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 13,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 14,
-    //     title:
+    //     userName:
     //     uri:
     // },
     // {
     //     id: 15,
-    //     title:
+    //     userName:
     //     uri:
     // }
     
