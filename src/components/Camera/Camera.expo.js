@@ -8,6 +8,7 @@ import {
   Button
 } from "react-native";
 import { Camera } from "expo-camera";
+import { Audio } from 'expo-av';
 
 export const AppCamera = ({closeCamera}) =>  {
   const [hasPermission, setHasPermission] = useState(null);
@@ -15,8 +16,12 @@ export const AppCamera = ({closeCamera}) =>  {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+      console.log(status)
+      // const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      const {camera} = await Permissions.askAsync(Permissions.CAMERA);
+      // const {state} = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      const {audio} = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      setHasPermission(camera === "granted" && audio === 'granted');
     })();
   }, []);
 

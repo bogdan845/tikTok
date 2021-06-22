@@ -29,8 +29,9 @@ export const Post = ({ video }) => {
           resizeMode={"cover"}
           style={styles.video}
           repeat={true}
-          shouldPlay={pause}
+          shouldPlay={false}
           isLooping
+          isMuted={true}
           source={{
             uri: video.uri,
           }}

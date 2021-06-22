@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
 import { Feed } from "./src/components/Feed/Feed";
-import { AppCamera } from "./src/components/Camera/Camera";
+// import { AppCamera } from "./src/components/Camera/Camera";
+import {AppCamera} from './src/components/Camera/AppCamera'
 
-https://www.codementor.io/@foysalit/building-a-camera-app-with-react-native-r8up5685v
-https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
-https://www.youtube.com/watch?v=rY0braBBlgw&ab_channel=ReactNativeSchool
-https://codedaily.io/tutorials/Create-a-Video-that-Auto-Plays-when-Scrolled-into-View-in-React-Native
+// https://www.codementor.io/@foysalit/building-a-camera-app-with-react-native-r8up5685v
+// https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
+// https://www.youtube.com/watch?v=rY0braBBlgw&ab_channel=ReactNativeSchool
+// https://codedaily.io/tutorials/Create-a-Video-that-Auto-Plays-when-Scrolled-into-View-in-React-Native
+
 
 export default function App() {
   const [toggleCamera, setToggleCamera] = useState(false);
