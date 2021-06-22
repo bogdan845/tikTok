@@ -67,7 +67,6 @@ export const AppCamera = ({ closeCamera }) => {
         isCapturing: false,
         captures: [video, ...captures],
       }));
-      console.log(video);
     }
   };
 
