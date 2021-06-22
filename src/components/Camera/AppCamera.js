@@ -1,100 +1,113 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import RNFetchBlob from 'rn-fetch-blob'
-import * as MediaLibrary from 'expo-media-library';
+import * as MediaLibrary from "expo-media-library";
 import Toolbar from "./Toolbar";
 import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    Dimensions,
-    Button
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Button,
 } from "react-native";
 import styles from "./styles";
-import {Camera} from "expo-camera";
-import {Audio} from 'expo-av';
+import { Camera } from "expo-camera";
+import { Audio } from "expo-av";
 
-export const AppCamera = ({closeCamera}) => {
+export const AppCamera = ({ closeCamera }) => {
+  useEffect(() => {
+    (async () => {
+      const video = await Camera.requestPermissionsAsync();
+      const audio = await Audio.requestPermissionsAsync();
+      const storage = await MediaLibrary.requestPermissionsAsync();
+      setHasPermission(
+        video.status === "granted" &&
+          audio.status === "granted" &&
+          storage.status === "granted"
+      );
+    })();
+  }, []);
 
-    useEffect(() => {
-        (async () => {
-            const video = await Camera.requestPermissionsAsync();
-            const audio = await Audio.requestPermissionsAsync();
-            setHasPermission(video.status === "granted" && audio.status === 'granted');
-        })();
-    }, []);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [captures, setCaptures] = useState([]);
+  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
+  const [capturing, setCapturing] = useState({ isCapturing: false });
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
 
-    const [cameraRef, setCameraRef] = useState(null)
-    const [hasPermission, setHasPermission] = useState(null);
-    const [captures, setCaptures] = useState([]);
-    const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
-    const [capturing, setCapturing] = useState({isCapturing: false});
-    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const flashModeHandler = (flashMode) => setFlashMode(() => flashMode);
+  const cameraTypeHandler = (cameraType) => setCameraType(() => cameraType);
 
-    const flashModeHandler = (flashMode) => setFlashMode(() => flashMode)
-    const cameraTypeHandler = (cameraType) => setCameraType(() => cameraType);
+  const captureInHandler = () => setCapturing({ isCapturing: true });
 
-    const captureInHandler = () => setCapturing({isCapturing: true});
-
-    const captureOutHandler = async () => {
-        if (capturing.isCapturing) {
-            cameraRef.stopRecording();
-        }
+  const captureOutHandler = async () => {
+    if (capturing.isCapturing) {
+      cameraRef.stopRecording();
     }
+  };
 
-    const shortCaptureHandler = async () => {
-        if (cameraRef) {
-            const options = {quality: 0.5};
-            const photo = await cameraRef.takePictureAsync(options);
-            setCapturing(() => ({isCapturing: false, captures: [photo, ...captures]}))
-            console.log(photo);
-        }
+  const shortCaptureHandler = async () => {
+    if (cameraRef) {
+      const options = { quality: 0.5 };
+      const photo = await cameraRef.takePictureAsync(options);
+      await MediaLibrary.createAssetAsync(photo.uri);
+      setCapturing(() => ({
+        isCapturing: false,
+        captures: [photo, ...captures],
+      }));
     }
+  };
 
-    const longCaptureHandler = async () => {
-        if (cameraRef) {
-            const options = {maxDuration: 10}
-            const video = await cameraRef.recordAsync(options);
-            setCapturing(() => ({isCapturing: false, captures: [video, ...captures]}))
-            console.log(video);
-        }
+  const longCaptureHandler = async () => {
+    if (cameraRef) {
+      const options = { maxDuration: 10 };
+      const video = await cameraRef.recordAsync(options);
+      await MediaLibrary.createAssetAsync(video.uri);
+      setCapturing(() => ({
+        isCapturing: false,
+        captures: [video, ...captures],
+      }));
+      console.log(video);
     }
+  };
 
-
-    if (hasPermission === null) {
-        return <View/>;
-    }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
-    return (
-        <View style={styles.container}>
-            <Camera
-                ref={ref => setCameraRef(ref)}
-                style={styles.camera}
-                type={cameraType}
-                ratio={'16:9'}
-                flashMode={flashMode}
-            >
-                <View style={styles.toolbarWrap}>
-                    <Toolbar
-                        capturing={capturing}
-                        flashMode={flashMode}
-                        setFlashMode={flashModeHandler}
-                        cameraType={cameraType}
-                        setCameraType={cameraTypeHandler}
-                        onCaptureIn={captureInHandler}
-                        onCaptureOut={captureOutHandler}
-                        onLongCapture={longCaptureHandler}
-                        onShortCapture={shortCaptureHandler}
-                    />
-                    <Text onPress={() => closeCamera()} style={styles.backToFeed}>Back to Feed</Text>
-                </View>
-            </Camera>
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+  return (
+    <View style={styles.container}>
+      <Camera
+        ref={(ref) => setCameraRef(ref)}
+        style={styles.camera}
+        type={cameraType}
+        ratio={"16:9"}
+        flashMode={flashMode}
+      >
+        <View style={styles.toolbarWrap}>
+          <Toolbar
+            capturing={capturing}
+            flashMode={flashMode}
+            setFlashMode={flashModeHandler}
+            cameraType={cameraType}
+            setCameraType={cameraTypeHandler}
+            onCaptureIn={captureInHandler}
+            onCaptureOut={captureOutHandler}
+            onLongCapture={longCaptureHandler}
+            onShortCapture={shortCaptureHandler}
+          />
+          <Button
+            onPress={() => closeCamera()}
+            title="Back to Feed"
+            color="rgba(0,0,0,0.5)"
+          />
         </View>
-    );
-}
-
+      </Camera>
+    </View>
+  );
+};
 
 // import React, {useState, useEffect, useRef} from "react";
 // import Toolbar from "./Toolbar";
