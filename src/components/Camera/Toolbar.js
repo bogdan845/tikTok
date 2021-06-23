@@ -1,7 +1,7 @@
 import React from 'react';
 import {Camera} from "expo-camera";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import {View, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
+import {View, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 /*
 * styles / components

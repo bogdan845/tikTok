@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Button,
+    ActivityIndicator
 } from "react-native";
 import {Camera} from "expo-camera";
 import {Audio} from "expo-av";
@@ -53,8 +54,8 @@ export const AppCamera = ({closeCamera}) => {
         if (cameraRef) {
             const options = {quality: 0.5};
             const photo = await cameraRef.takePictureAsync(options);
-            await MediaLibrary.createAssetAsync(photo.uri);
             await setCapturing(() => ({isActive: false}))
+            await MediaLibrary.createAssetAsync(photo.uri);
         }
     };
 
@@ -62,8 +63,8 @@ export const AppCamera = ({closeCamera}) => {
         if (cameraRef) {
             const options = {maxDuration: 10};
             const video = await cameraRef.recordAsync(options);
-            await MediaLibrary.createAssetAsync(video.uri);
             await setCapturing(() => ({isActive: false}))
+            await MediaLibrary.createAssetAsync(video.uri);
         }
     };
 
@@ -76,6 +77,8 @@ export const AppCamera = ({closeCamera}) => {
 
     return (
         <View>
+
+
             <Camera
                 ref={(ref) => setCameraRef(ref)}
                 style={styles.camera}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {View, TouchableWithoutFeedback} from "react-native";
+import {View, TouchableWithoutFeedback, Text} from "react-native";
 import {Video} from "expo-av";
 
 /*

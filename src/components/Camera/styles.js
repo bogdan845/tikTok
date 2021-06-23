@@ -25,6 +25,7 @@ export default styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingBottom: 30,
+        paddingTop: 20,
         paddingHorizontal: 50,
         alignItems: "center",
     },
@@ -38,6 +39,6 @@ export default styles = StyleSheet.create({
     },
 
     captureBtnActive: {
-        backgroundColor: "#fff",
+        backgroundColor: "#F44336",
     },
 });
