@@ -1,40 +1,37 @@
-import { StyleSheet, Dimensions } from "react-native";
-const { width: winWidth, height: winHeight } = Dimensions.get("window");
+import {StyleSheet, Dimensions} from "react-native";
+
+const {width: winWidth, height: winHeight} = Dimensions.get("window");
 
 export default styles = StyleSheet.create({
-  // Post
-  postContainer: {
-    width: "100%",
-    height: winHeight,
-    flex: 1,
-    justifyContent: "flex-end",
-  },
 
-  video: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
+    // Post.js
+    postContainer: {
+        width: "100%",
+        height: winHeight,
+        flex: 1,
+        justifyContent: "flex-end",
+    },
 
-  playIcon: {
-    position: "absolute",
-    top: "40%",
-    left: "40%",
-  },
+    video: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#eee'
+    },
 
-  // PostInfo
-  postInfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: 40,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
+    // PostInfo.js
+    postInfo: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        backgroundColor: 'rgba(0,0,0,0.25)'
+    },
 
-  userName: {
-    fontSize: 20,
-    color: "#fff",
-  },
+    userName: {
+        fontSize: 20,
+        color: "#fff",
+    },
 });

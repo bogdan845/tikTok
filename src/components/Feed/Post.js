@@ -1,52 +1,46 @@
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableWithoutFeedback,
-} from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import { Video } from "expo-av";
+import React, {useState, useEffect} from "react";
+import {View, TouchableWithoutFeedback} from "react-native";
+import {Video} from "expo-av";
+
+/*
+* styles / components
+* */
 import styles from "./styles";
-import { PostInfo } from "./PostInfo";
-const windowHeight = Dimensions.get("window").height;
+import {PostInfo} from "./PostInfo";
 
-export const Post = ({ video }) => {
-  const [pause, setPause] = useState(true);
-  const [position, setPosition] = useState({
-    start: null,
-    end: null,
-  });
-  const pauseHandler = () => {
-    setPause((prevState) => !prevState);
-  };
 
-  return (
-    <View style={styles.postContainer}>
-      <TouchableWithoutFeedback onPress={pauseHandler}>
-        <Video
-          onError={(e) => console.log(e)}
-          resizeMode={"cover"}
-          style={styles.video}
-          repeat={true}
-          shouldPlay={false}
-          isLooping
-          isMuted={true}
-          source={{
-            uri: video.uri,
-          }}
-        />
-      </TouchableWithoutFeedback>
-      {!pause && (
-        <Entypo
-          onPress={pauseHandler}
-          style={styles.playIcon}
-          name="controller-play"
-          color={"rgba(255, 255, 255, 0.75)"}
-          size={100}
-        />
-      )}
-      <PostInfo userName={video.userName} />
-    </View>
-  );
+/*
+* Single post
+* */
+export const Post = ({video, currentIndex, currentVisibleIndex}) => {
+
+    const [pause, setPause] = useState(true);
+
+    const [like, setLike] = useState(false);
+    const likeHandler = () => setLike((prevState) => !prevState);
+
+    const onScrollPauseHandler = () => {
+        if (currentIndex === 0 && !currentVisibleIndex) {
+            return true;
+        }
+        return currentIndex == currentVisibleIndex;
+    }
+
+
+    return (
+        <View style={styles.postContainer}>
+            <TouchableWithoutFeedback onPress={likeHandler}>
+                <Video
+                    resizeMode={"contain"}
+                    style={styles.video}
+                    repeat={true}
+                    shouldPlay={onScrollPauseHandler()}
+                    isLooping
+                    isMuted={false}
+                    source={{uri: video.uri}}
+                />
+            </TouchableWithoutFeedback>
+            <PostInfo userName={video.userName} likeHandler={likeHandler} isLiked={like}/>
+        </View>
+    );
 };
