@@ -27,12 +27,12 @@ export const posts = [
     },
     {
         id: 6,
-        userName: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-        uri: 'startY'
+        userName: '@startY',
+        uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
     },
     {
         id: 7,
-        userName: 'one_first',
+        userName: '@one_first',
         uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
     },
 ]
