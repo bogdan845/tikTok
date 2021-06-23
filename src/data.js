@@ -27,7 +27,7 @@ export const posts = [
     },
     {
         id: 6,
-        userName: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+        userName: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
         uri: 'startY'
     },
     {
