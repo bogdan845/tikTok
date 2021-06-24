@@ -1,110 +1,101 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import * as MediaLibrary from "expo-media-library";
-import {
-    Text,
-    View,
-    Button,
-    ActivityIndicator
-} from "react-native";
-import {Camera} from "expo-camera";
-import {Audio} from "expo-av";
+import { Text, View, Button } from "react-native";
+import { Camera } from "expo-camera";
+import { Audio } from "expo-av";
 
 /*
-* styles / components
-* */
+ * styles / components
+ * */
 import styles from "./styles";
-import {Toolbar} from "./Toolbar";
-
+import { Toolbar } from "./Toolbar";
 
 /*
-* AppCamera
-* */
-export const AppCamera = ({closeCamera}) => {
+ * AppCamera
+ * */
+export const AppCamera = ({ closeCamera }) => {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [capturing, setCapturing] = useState({ isActive: false });
+  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
 
-    useEffect(() => {
-        (async () => {
-            const video = await Camera.requestPermissionsAsync();
-            const audio = await Audio.requestPermissionsAsync();
-            const storage = await MediaLibrary.requestPermissionsAsync();
-            setHasPermission(
-                video.status === "granted" &&
-                audio.status === "granted" &&
-                storage.status === "granted"
-            );
-        })();
-    }, []);
+  useEffect(() => {
+    (async () => {
+      const video = await Camera.requestPermissionsAsync();
+      const audio = await Audio.requestPermissionsAsync();
+      const storage = await MediaLibrary.requestPermissionsAsync();
+      setHasPermission(
+        video.status === "granted" &&
+          audio.status === "granted" &&
+          storage.status === "granted"
+      );
+    })();
+  }, []);
 
-    const [hasPermission, setHasPermission] = useState(null);
-    const [cameraRef, setCameraRef] = useState(null);
-    const [capturing, setCapturing] = useState({isActive: false});
-    const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
-    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const flashModeHandler = (flashMode) => setFlashMode(() => flashMode);
+  const cameraTypeHandler = (cameraType) => setCameraType(() => cameraType);
 
-    const flashModeHandler = (flashMode) => setFlashMode(() => flashMode);
-    const cameraTypeHandler = (cameraType) => setCameraType(() => cameraType);
-
-    const capturingOnHandler = () => setCapturing({isActive: true});
-    const capturingOutHandler = async () => {
-        if (capturing.isActive) {
-            cameraRef.stopRecording();
-        }
-    };
-
-    const takePhotoHandler = async () => {
-        if (cameraRef) {
-            const options = {quality: 0.5};
-            const photo = await cameraRef.takePictureAsync(options);
-            await setCapturing(() => ({isActive: false}))
-            await MediaLibrary.createAssetAsync(photo.uri);
-        }
-    };
-
-    const videoRecordingHandler = async () => {
-        if (cameraRef) {
-            const options = {maxDuration: 10};
-            const video = await cameraRef.recordAsync(options);
-            await setCapturing(() => ({isActive: false}))
-            await MediaLibrary.createAssetAsync(video.uri);
-        }
-    };
-
-    if (hasPermission === null) {
-        return <View/>;
+  const capturingOnHandler = () => setCapturing({ isActive: true });
+  const capturingOutHandler = async () => {
+    if (capturing.isActive) {
+      cameraRef.stopRecording();
     }
-    if (hasPermission === false) {
-        return <Text>Some of permissions not allowed</Text>;
+  };
+
+  const takePhotoHandler = async () => {
+    if (cameraRef) {
+      const options = { quality: 0.5 };
+      const photo = await cameraRef.takePictureAsync(options);
+      setCapturing(() => ({ isActive: false }));
+      await MediaLibrary.createAssetAsync(photo.uri);
     }
+  };
 
-    return (
-        <View>
+  const videoRecordingHandler = async () => {
+    if (cameraRef) {
+      const options = { maxDuration: 10 };
+      const video = await cameraRef.recordAsync(options);
+      setCapturing(() => ({ isActive: false }));
+      await MediaLibrary.createAssetAsync(video.uri);
+    }
+  };
 
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>Some of permissions not allowed</Text>;
+  }
 
-            <Camera
-                ref={(ref) => setCameraRef(ref)}
-                style={styles.camera}
-                type={cameraType}
-                ratio={"16:9"}
-                flashMode={flashMode}
-            >
-                <View style={styles.toolbarWrap}>
-                    <Toolbar
-                        capturing={capturing}
-                        cameraType={cameraType}
-                        setCameraType={cameraTypeHandler}
-                        flashMode={flashMode}
-                        setFlashMode={flashModeHandler}
-                        capturingOn={capturingOnHandler}
-                        capturingOut={capturingOutHandler}
-                        videoRecording={videoRecordingHandler}
-                        takePhoto={takePhotoHandler}
-                    />
-                    <Button
-                        onPress={() => closeCamera()}
-                        title="Back to Feed"
-                        color="rgba(0,0,0,0.5)"
-                    />
-                </View>
-            </Camera>
+  return (
+    <View>
+      <Camera
+        ref={(ref) => setCameraRef(ref)}
+        style={styles.camera}
+        type={cameraType}
+        ratio={"16:9"}
+        flashMode={flashMode}
+      >
+        <View style={styles.toolbarWrap}>
+          <Toolbar
+            capturing={capturing}
+            cameraType={cameraType}
+            setCameraType={cameraTypeHandler}
+            flashMode={flashMode}
+            setFlashMode={flashModeHandler}
+            capturingOn={capturingOnHandler}
+            capturingOut={capturingOutHandler}
+            videoRecording={videoRecordingHandler}
+            takePhoto={takePhotoHandler}
+          />
+          <Button
+            onPress={() => closeCamera()}
+            title="Back to Feed"
+            color="rgba(0,0,0,0.5)"
+          />
         </View>
-    );
+      </Camera>
+    </View>
+  );
 };
